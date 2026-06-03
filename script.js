@@ -3,6 +3,7 @@ const branch = document.querySelector('.d-branch');
 const comment = document.querySelector('.d-comment');
 const jsonkeyIn = document.querySelector('#jsonkey-in');
 const jsonkeyOut = document.querySelector('.d-jsonkey-output');
+const type = document.querySelector('.d-type');
 
 //Daniel Reznick..
 var makeBranch = function (str) {
@@ -10,6 +11,8 @@ var makeBranch = function (str) {
   let s = str.trim();
   const ticketMatch = s.match(/#(\d+)/);
   const ticket = ticketMatch ? ticketMatch[1] : '';
+  const prefix = type?.value ? `${type.value}(${ticket})!:` : ticket;
+  
   s = s.replace(/#\d+/, '').trim();
   s = s
     .replaceAll('#', '').replaceAll('>', '').replaceAll('(', '').replaceAll(')', '')
@@ -17,7 +20,8 @@ var makeBranch = function (str) {
     .replaceAll(',', '').replaceAll(':', '').replaceAll('.', '').replaceAll('[', '')
     .replaceAll(']', '').replaceAll('\\', '').replaceAll('/', '');
   s = s.replace(/\s+/g, '-').toLowerCase();
-  return ticket ? `${ticket}-${s}` : s;
+  
+  return prefix ? `${prefix}-${s}` : s;
 };
 
 var makeComment = function(str) {
@@ -27,7 +31,7 @@ var makeComment = function(str) {
   const ticketMatch = strOutcome.match(/#(\d+)/);
   const ticket = ticketMatch ? ticketMatch[1] : '';
   strOutcome = strOutcome.replace(/#\d+/, '').trim();
-  const prefix = ticket ? `${type.value}(#${ticket}):` : `${type.value}:`;
+  const prefix = ticket ? `${type.value}(${ticket})!:` : `${type.value}:`;
   return `${prefix} ${strOutcome}`;
 }
 
